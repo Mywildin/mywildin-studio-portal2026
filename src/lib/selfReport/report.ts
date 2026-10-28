@@ -139,7 +139,7 @@ export function generateWildSelfReport(
     familyBlurb: family.blurb,
     rare,
     rarityNote: rare
-      ? "The Phoenix is the rare reading — the founder’s note puts it under 1 in 100. Every pillar had to be lit, and the trait pattern had to match."
+      ? "The Phoenix is the rarest reading. Every pillar has to be lit, and the trait pattern has to match."
       : null,
     superpower: copy.superpower,
     coreIdentity: copy.description,

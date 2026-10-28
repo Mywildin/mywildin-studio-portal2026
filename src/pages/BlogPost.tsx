@@ -23,7 +23,7 @@ export function BlogPostPage() {
       </Link>
       {post.draft ? (
         <p className="mt-4 rounded-2xl border border-ember/50 bg-ember/10 px-4 py-3 text-sm text-gold-2">
-          Draft — founder to replace. This post is a placeholder, not a finished essay.
+          Draft. This note is still being written.
         </p>
       ) : null}
       <h1 className="mt-4 font-display text-5xl text-cream">{post.title}</h1>

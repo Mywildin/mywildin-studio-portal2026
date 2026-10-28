@@ -7,13 +7,13 @@ export function BlogPage() {
     <div className="mx-auto w-full max-w-2xl px-5 py-14">
       <Seo
         title="Blog"
-        description="Notes from MyWildin. Early posts are drafts waiting for the founder."
+        description="Notes from MyWildin. The early posts are still drafts."
         path="/blog"
       />
       <p className="text-xs tracking-[0.22em] text-gold uppercase">Blog</p>
       <h1 className="mt-3 font-display text-5xl text-cream">Notes from the circle</h1>
       <p className="mt-3 text-mist">
-        Two drafts are sitting here so the shelf isn’t empty. They are marked as drafts. Replace them.
+        Two early notes are here, still marked as drafts.
       </p>
       <ul className="mt-8 grid gap-4">
         {posts.map((post) => (

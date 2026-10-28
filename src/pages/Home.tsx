@@ -23,7 +23,7 @@ const LAYERS = [
     index: "03",
     title: "Behavior",
     kicker: "Later",
-    body: "How you actually show up, once there is something to notice. Not in 0.1. The reading stays honest about what it has and has not seen.",
+    body: "How you actually show up, once there is something to notice. Not yet. The reading stays honest about what it has and has not seen.",
   },
 ];
 

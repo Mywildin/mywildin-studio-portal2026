@@ -331,7 +331,10 @@ describe("dynamic report", () => {
     );
     const report = generateWildSelfReport(phoenix.archetypeId, phoenix.profile);
     expect(report.rare).toBe(true);
-    expect(report.rarityNote).toMatch(/1 in 100/);
+    expect(report.rarityNote).toBe(
+      "The Phoenix is the rarest reading. Every pillar has to be lit, and the trait pattern has to match.",
+    );
+    expect(report.rarityNote).not.toMatch(/founder|%|\d/);
     expect(report.pillarBreakdown).toHaveLength(4);
     expect(report.relationshipStyle.toLowerCase()).not.toMatch(/dating|romance|boyfriend|girlfriend/);
     expect(report.strengths.length).toBeGreaterThan(0);

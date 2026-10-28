@@ -5,14 +5,14 @@ export function PrivacyPage() {
     <article className="mx-auto w-full max-w-2xl px-5 py-14">
       <Seo
         title="Privacy"
-        description="In MyWildin 0.1, birth details stay in your browser. The waitlist collects only what you type into the form."
+        description="Birth details stay in your browser. The waitlist collects only what you type into the form."
         path="/privacy"
       />
       <p className="text-xs tracking-[0.22em] text-gold uppercase">Privacy</p>
       <h1 className="mt-3 font-display text-5xl text-cream">Birth data stays in the browser.</h1>
       <div className="mt-6 grid gap-4 leading-relaxed text-mist">
         <p>
-          Version 0.1 has no account and no backend of its own. The quiz runs on your device.
+          MyWildin has no account and no server of its own. The quiz runs on your device.
           While you are answering, a draft may sit in this browser’s session storage so a refresh
           does not erase the page. That draft includes the name, date, time, and city you entered.
           It is cleared when the reading is cast.

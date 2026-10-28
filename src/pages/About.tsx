@@ -31,7 +31,7 @@ export function AboutPage() {
         </p>
         <p>
           A later layer will look at behavior — what you actually do, not only what you say and what
-          the sky suggests. Version 0.1 stops before that. The reading says so.
+          the sky suggests. This version stops before that. The reading says so.
         </p>
         <p>
           Birth date, time, and place are used in your browser to cast the chart, then dropped.
