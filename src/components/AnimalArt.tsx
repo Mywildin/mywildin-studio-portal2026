@@ -1,7 +1,7 @@
 /**
- * Flat collectible animal.
- * Swap the file at `public/animals/{slug}.svg` (lion, fox, owl, …).
- * The component always loads that public path.
+ * Collectible animal illustration.
+ * Files live at `public/animals/{slug}.webp` (lion, fox, owl, phoenix, …).
+ * Replace that file to swap the art. The slug matches the archetype's animal id.
  */
 export function AnimalArt({
   slug,
@@ -12,7 +12,7 @@ export function AnimalArt({
 }) {
   return (
     <img
-      src={`/animals/${slug}.svg`}
+      src={`/animals/${slug}.webp`}
       alt=""
       className={className}
       draggable={false}

@@ -4,7 +4,7 @@ A know-yourself site for [mywildin.com](https://mywildin.com). You take a short 
 
 Astrology and BaZi are treated as factory settings: the weather you showed up in, not a verdict.
 
-The public look is off-white, black, DM Sans, and IBM Plex Mono. Each animal has a soft type-color panel. Character art is a flat SVG at `public/animals/{slug}.svg` (`fox`, `owl`, `phoenix`, and the rest). Replace that file to drop in a finished illustration. The component is `src/components/AnimalArt.tsx`.
+The public look is off-white, black, DM Sans, and IBM Plex Mono. Each animal has a soft type-color panel. Character art is a transparent WebP at `public/animals/{slug}.webp` (`lion`, `butterfly`, `wolf`, `whale`, `cheetah`, `koala`, `eagle`, `bee`, `fox`, `turtle`, `deer`, `octopus`, `panda`, `owl`, `phoenix`). Replace that file to swap the illustration. `src/components/AnimalArt.tsx` and the share card both load that path.
 
 The result is called a **Wildsign**. **Ask Amy** is the revisit CTA and currently opens the waitlist. Do not use Fate OS, fate, fortune, or psychic in user-facing copy.
 

@@ -37,7 +37,7 @@ function loadAnimal(slug: string): Promise<HTMLImageElement> {
     const image = new Image();
     image.onload = () => resolve(image);
     image.onerror = () => reject(new Error(`Missing animal art: ${slug}`));
-    image.src = `/animals/${slug}.svg`;
+    image.src = `/animals/${slug}.webp`;
   });
 }
 
@@ -73,26 +73,35 @@ export async function renderShareCard(input: ShareCardInput): Promise<Blob> {
   ctx.font = '500 26px "IBM Plex Mono", monospace';
   ctx.fillText("MYWILDIN  ·  YOUR WILDSIGN", 540, 110);
 
-  const art = 460;
-  ctx.drawImage(animal, (WIDTH - art) / 2, 150, art, art * (220 / 240));
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  const maxW = 900;
+  const maxH = 560;
+  const scale = Math.min(maxW / animal.width, maxH / animal.height);
+  const artW = animal.width * scale;
+  const artH = animal.height * scale;
+  const artY = 128;
+  ctx.drawImage(animal, (WIDTH - artW) / 2, artY, artW, artH);
 
-  ctx.font = '700 108px "DM Sans", sans-serif';
-  ctx.fillText(`The ${input.animal}`, 540, 700);
+  const titleY = Math.min(artY + artH + 78, 760);
+  ctx.font = '700 96px "DM Sans", sans-serif';
+  ctx.fillText(`The ${input.animal}`, 540, titleY);
 
   ctx.strokeStyle = "#161616";
   ctx.lineWidth = 2;
+  const ruleAfterTitle = titleY + 28;
   ctx.beginPath();
-  ctx.moveTo(120, 740);
-  ctx.lineTo(960, 740);
+  ctx.moveTo(120, ruleAfterTitle);
+  ctx.lineTo(960, ruleAfterTitle);
   ctx.stroke();
 
   ctx.font = '500 32px "DM Sans", sans-serif';
   const lines = wrap(ctx, input.tagline, 780).slice(0, 3);
   lines.forEach((line, index) => {
-    ctx.fillText(line, 540, 800 + index * 46);
+    ctx.fillText(line, 540, ruleAfterTitle + 52 + index * 44);
   });
 
-  const rowsTop = 800 + lines.length * 46 + 24;
+  const rowsTop = ruleAfterTitle + 52 + lines.length * 44 + 16;
   ctx.beginPath();
   ctx.moveTo(120, rowsTop);
   ctx.lineTo(960, rowsTop);
@@ -119,7 +128,7 @@ export async function renderShareCard(input: ShareCardInput): Promise<Blob> {
   ctx.lineTo(960, ruleY);
   ctx.stroke();
 
-  const buttonY = Math.min(ruleY + 70, 1180);
+  const buttonY = ruleY + 36;
   ctx.strokeRect(340, buttonY, 400, 88);
   ctx.textAlign = "center";
   ctx.font = '700 36px "DM Sans", sans-serif';
