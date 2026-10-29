@@ -1,170 +1,129 @@
-import { CONSTELLATIONS } from "@/content/constellations";
+import { WILD_TYPES } from "@/content/wildTypes";
 import type { ArchetypeId } from "@/lib/selfReport/types";
 
 export interface ShareCardInput {
   name: string;
   animal: string;
-  epithet: string;
+  slug: string;
   tagline: string;
   archetypeId: ArchetypeId;
-  rare: boolean;
-  element: string;
   sun: string;
   moon: string;
-  rising: string | null;
+  dayMaster: string;
 }
 
 const WIDTH = 1080;
 const HEIGHT = 1350;
 
-function hashSeed(value: string): number {
-  let seed = 2166136261;
-  for (let index = 0; index < value.length; index += 1) {
-    seed ^= value.charCodeAt(index);
-    seed = Math.imul(seed, 16777619);
+function wrap(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
+  const words = text.split(/\s+/);
+  const lines: string[] = [];
+  let line = "";
+  for (const word of words) {
+    const next = line ? `${line} ${word}` : word;
+    if (ctx.measureText(next).width > maxWidth && line) {
+      lines.push(line);
+      line = word;
+    } else {
+      line = next;
+    }
   }
-  return seed >>> 0;
+  if (line) lines.push(line);
+  return lines;
 }
 
-function mulberry32(seed: number) {
-  let state = seed;
-  return () => {
-    state |= 0;
-    state = (state + 0x6d2b79f5) | 0;
-    let t = Math.imul(state ^ (state >>> 15), 1 | state);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-function drawConstellation(
-  ctx: CanvasRenderingContext2D,
-  id: ArchetypeId,
-  cx: number,
-  cy: number,
-  scale: number,
-) {
-  const figure = CONSTELLATIONS[id];
-  const ox = cx - 100 * scale;
-  const oy = cy - 120 * scale;
-  ctx.save();
-  ctx.strokeStyle = id === "phoenix_enigmatic_muse" ? "#f0c27a" : "#d7b56a";
-  ctx.fillStyle = ctx.strokeStyle;
-  ctx.lineWidth = 1.7;
-  ctx.beginPath();
-  ctx.arc(cx, cy, 78 * scale, 0, Math.PI * 2);
-  ctx.stroke();
-  for (const [from, to] of figure.links) {
-    const a = figure.points[from];
-    const b = figure.points[to];
-    ctx.beginPath();
-    ctx.moveTo(ox + a[0] * scale, oy + a[1] * scale);
-    ctx.lineTo(ox + b[0] * scale, oy + b[1] * scale);
-    ctx.stroke();
-  }
-  for (const [x, y] of figure.points) {
-    ctx.beginPath();
-    ctx.arc(ox + x * scale, oy + y * scale, 3.1, 0, Math.PI * 2);
-    ctx.fill();
-  }
-  ctx.restore();
+function loadAnimal(slug: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error(`Missing animal art: ${slug}`));
+    image.src = `/animals/${slug}.svg`;
+  });
 }
 
 export async function renderShareCard(input: ShareCardInput): Promise<Blob> {
-  await document.fonts.load('600 92px "Cormorant Garamond"');
-  await document.fonts.load('500 28px "Outfit"');
+  await document.fonts.load('700 92px "DM Sans"');
+  await document.fonts.load('500 28px "DM Sans"');
+  await document.fonts.load('500 22px "IBM Plex Mono"');
+  const animal = await loadAnimal(input.slug);
   const canvas = document.createElement("canvas");
   canvas.width = WIDTH;
   canvas.height = HEIGHT;
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("Canvas is unavailable");
 
-  ctx.fillStyle = "#0c0b10";
-  ctx.fillRect(0, 0, WIDTH, HEIGHT);
-  const glow = ctx.createRadialGradient(540, 280, 40, 540, 420, 620);
-  glow.addColorStop(0, "rgba(215,181,106,0.18)");
-  glow.addColorStop(1, "rgba(12,11,16,0)");
-  ctx.fillStyle = glow;
-  ctx.fillRect(0, 0, WIDTH, HEIGHT);
-
-  const random = mulberry32(hashSeed(input.archetypeId));
-  for (let star = 0; star < 70; star += 1) {
-    const x = random() * WIDTH;
-    const y = random() * HEIGHT;
-    ctx.fillStyle = `rgba(244,238,228,${0.25 + random() * 0.55})`;
-    ctx.beginPath();
-    ctx.arc(x, y, random() > 0.9 ? 1.8 : 1, 0, Math.PI * 2);
-    ctx.fill();
+  const type = WILD_TYPES[input.archetypeId];
+  if (type.holo) {
+    const foil = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
+    foil.addColorStop(0, "#ffe1f4");
+    foil.addColorStop(0.34, "#e7ff8a");
+    foil.addColorStop(0.66, "#d7f3ff");
+    foil.addColorStop(1, "#ffd0ea");
+    ctx.fillStyle = foil;
+  } else {
+    ctx.fillStyle = type.panel;
   }
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+  ctx.strokeStyle = "#161616";
+  ctx.lineWidth = 8;
+  ctx.strokeRect(28, 28, WIDTH - 56, HEIGHT - 56);
 
-  ctx.strokeStyle = "rgba(215,181,106,0.85)";
-  ctx.lineWidth = 2;
-  ctx.strokeRect(48, 48, WIDTH - 96, HEIGHT - 96);
-  ctx.strokeStyle = "rgba(215,181,106,0.35)";
-  ctx.strokeRect(64, 64, WIDTH - 128, HEIGHT - 128);
-
-  ctx.fillStyle = "#d7b56a";
-  ctx.font = '500 22px Outfit, sans-serif';
+  ctx.fillStyle = "#161616";
   ctx.textAlign = "center";
-  ctx.fillText("MYWILDIN", 540, 140);
-  ctx.fillStyle = "#c9bfb0";
-  ctx.font = '300 20px Outfit, sans-serif';
-  ctx.fillText("a reading of your factory settings", 540, 174);
+  ctx.font = '500 26px "IBM Plex Mono", monospace';
+  ctx.fillText("MYWILDIN  ·  YOUR WILDSIGN", 540, 110);
 
-  drawConstellation(ctx, input.archetypeId, 540, 390, 1.15);
+  const art = 460;
+  ctx.drawImage(animal, (WIDTH - art) / 2, 150, art, art * (220 / 240));
 
-  if (input.rare) {
-    ctx.fillStyle = "#e7a15a";
-    ctx.font = '500 18px Outfit, sans-serif';
-    ctx.fillText("RARE ARCHETYPE", 540, 560);
-  }
+  ctx.font = '700 108px "DM Sans", sans-serif';
+  ctx.fillText(`The ${input.animal}`, 540, 700);
 
-  ctx.fillStyle = "#f4eee4";
-  ctx.font = '600 92px "Cormorant Garamond", serif';
-  ctx.fillText(input.animal, 540, input.rare ? 650 : 620);
-  ctx.fillStyle = "#d7b56a";
-  ctx.font = '500 italic 36px "Cormorant Garamond", serif';
-  ctx.fillText(input.epithet, 540, input.rare ? 710 : 680);
-  ctx.fillStyle = "#c9bfb0";
-  ctx.font = '400 26px "Cormorant Garamond", serif';
-  ctx.fillText(input.tagline, 540, input.rare ? 758 : 732);
-
-  const facts = [
-    ["Element", input.element],
-    ["Sun", input.sun],
-    ["Moon", input.moon],
-  ];
-  if (input.rising) facts.push(["Rising", input.rising]);
-  const gap = 980 / facts.length;
-  facts.forEach(([label, value], index) => {
-    const x = 80 + gap * index + gap / 2;
-    ctx.fillStyle = "#d7b56a";
-    ctx.font = '500 16px Outfit, sans-serif';
-    ctx.fillText(label.toUpperCase(), x, 860);
-    ctx.fillStyle = "#f4eee4";
-    ctx.font = '500 32px "Cormorant Garamond", serif';
-    ctx.fillText(value, x, 904);
-  });
-
-  ctx.strokeStyle = "rgba(215,181,106,0.35)";
+  ctx.strokeStyle = "#161616";
+  ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(180, 960);
-  ctx.lineTo(900, 960);
+  ctx.moveTo(120, 740);
+  ctx.lineTo(960, 740);
   ctx.stroke();
 
-  ctx.fillStyle = "#c9bfb0";
-  ctx.font = '300 22px Outfit, sans-serif';
-  ctx.fillText("cast for", 540, 1020);
-  ctx.fillStyle = "#f4eee4";
-  ctx.font = '500 40px "Cormorant Garamond", serif';
-  ctx.fillText(input.name, 540, 1072);
+  ctx.font = '500 32px "DM Sans", sans-serif';
+  const lines = wrap(ctx, input.tagline, 780).slice(0, 3);
+  lines.forEach((line, index) => {
+    ctx.fillText(line, 540, 800 + index * 46);
+  });
 
-  ctx.fillStyle = "#d7b56a";
-  ctx.font = '500 24px Outfit, sans-serif';
-  ctx.fillText("mywildin.com", 540, 1220);
-  ctx.fillStyle = "#c9bfb0";
-  ctx.font = '300 18px Outfit, sans-serif';
-  ctx.fillText("Friendship with yourself, and with your people.", 540, 1258);
+  const rowsTop = 800 + lines.length * 46 + 24;
+  ctx.beginPath();
+  ctx.moveTo(120, rowsTop);
+  ctx.lineTo(960, rowsTop);
+  ctx.stroke();
+
+  const rows: [string, string][] = [
+    ["SUN", input.sun],
+    ["MOON", input.moon],
+    ["DAY MASTER", input.dayMaster],
+  ];
+  ctx.font = '500 28px "IBM Plex Mono", monospace';
+  ctx.textAlign = "left";
+  rows.forEach(([label, value], index) => {
+    const y = rowsTop + 64 + index * 58;
+    ctx.fillText(label, 140, y);
+    ctx.textAlign = "right";
+    ctx.fillText(value, 940, y);
+    ctx.textAlign = "left";
+  });
+
+  const ruleY = rowsTop + 64 + rows.length * 58;
+  ctx.beginPath();
+  ctx.moveTo(120, ruleY);
+  ctx.lineTo(960, ruleY);
+  ctx.stroke();
+
+  const buttonY = Math.min(ruleY + 70, 1180);
+  ctx.strokeRect(340, buttonY, 400, 88);
+  ctx.textAlign = "center";
+  ctx.font = '700 36px "DM Sans", sans-serif';
+  ctx.fillText("Ask Amy", 540, buttonY + 56);
 
   const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/png"));
   if (!blob) throw new Error("Could not encode the card");
@@ -173,15 +132,15 @@ export async function renderShareCard(input: ShareCardInput): Promise<Blob> {
 
 export async function downloadShareCard(input: ShareCardInput): Promise<void> {
   const blob = await renderShareCard(input);
-  const filename = `mywildin-${input.animal.toLowerCase()}.png`;
+  const filename = `mywildin-${input.slug}-wildsign.png`;
   const file = new File([blob], filename, { type: "image/png" });
   const nav = navigator as Navigator & { canShare?: (data: ShareData) => boolean };
   if (nav.canShare?.({ files: [file] })) {
     try {
       await navigator.share({
         files: [file],
-        title: `${input.animal} · MyWildin`,
-        text: `My wild self is the ${input.animal}. mywildin.com`,
+        title: `The ${input.animal} · MyWildin`,
+        text: `My Wildsign is the ${input.animal}. mywildin.com`,
       });
       return;
     } catch (error) {

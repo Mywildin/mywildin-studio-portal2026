@@ -142,28 +142,28 @@ export function QuizPage() {
       sessionStorage.removeItem(STORAGE_KEY);
       navigate(`/result?r=${encodeResult(snapshot)}`);
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "The reading couldn’t be cast.");
+      setError(cause instanceof Error ? cause.message : "That didn't compute.");
     }
   }
 
   return (
     <div className="mx-auto w-full max-w-xl px-5 py-8">
       <Seo
-        title="Discover your wild self"
-        description="A short birth note, then fifteen questions. Your chart stays in the browser."
+        title="Get your Wildsign"
+        description="Birthday, then fifteen questions. The chart stays on your device."
         path="/quiz"
       />
       <div
-        className="h-1 overflow-hidden rounded-full bg-white/10"
+        className="h-1 bg-ink/15"
         role="progressbar"
         aria-valuemin={1}
         aria-valuemax={TOTAL}
         aria-valuenow={draft.step + 1}
         aria-label="Quiz progress"
       >
-        <div className="h-full bg-gold" style={{ width: `${((draft.step + 1) / TOTAL) * 100}%` }} />
+        <div className="h-full bg-ink" style={{ width: `${((draft.step + 1) / TOTAL) * 100}%` }} />
       </div>
-      <p className="mt-3 text-xs tracking-[0.18em] text-mist uppercase">
+      <p className="mono mt-3 uppercase">
         {draft.step === 0 ? "Birth" : `Question ${draft.step} of ${QUESTION_ORDER.length}`}
       </p>
 
@@ -176,14 +176,13 @@ export function QuizPage() {
           }}
         >
           <div>
-            <h1 className="font-display text-4xl text-cream">Before the questions, a little sky.</h1>
-            <p className="mt-3 text-sm leading-relaxed text-mist">
-              Your birthday is the clock we use for factory settings. If you don’t know the time,
-              we’ll still read the day — we just won’t guess a rising sign or an hour pillar.
-              Nothing here is sent to a server.
+            <h1 className="text-4xl font-bold tracking-tight">First, the sky part.</h1>
+            <p className="mt-3 text-sm leading-relaxed">
+              Birthday and city. Time if you have it. No time means no rising sign and no hour pillar.
+              We don't guess. None of this leaves your phone.
             </p>
           </div>
-          <label className="grid gap-1 text-sm text-mist">
+          <label className="mono grid gap-1 normal-case">
             Name or nickname
             <input
               className="field"
@@ -191,10 +190,10 @@ export function QuizPage() {
               maxLength={40}
               value={draft.name}
               onChange={(event) => patch({ name: event.target.value })}
-              placeholder="What should the card say?"
+              placeholder="Name on the card"
             />
           </label>
-          <label className="grid gap-1 text-sm text-mist">
+          <label className="mono grid gap-1 normal-case">
             Birth date
             <input
               className="field"
@@ -207,7 +206,7 @@ export function QuizPage() {
             />
           </label>
           <div className="grid gap-2">
-            <label className="grid gap-1 text-sm text-mist">
+            <label className="mono grid gap-1 normal-case">
               Birth time
               <input
                 className="field"
@@ -217,7 +216,7 @@ export function QuizPage() {
                 onChange={(event) => patch({ time: event.target.value })}
               />
             </label>
-            <label className="flex items-center gap-2 text-sm text-cream">
+            <label className="flex items-center gap-2 text-sm">
               <input
                 type="checkbox"
                 checked={draft.timeUnknown}
@@ -230,17 +229,15 @@ export function QuizPage() {
           <button
             type="submit"
             disabled={!birthReady}
-            className="rounded-full bg-gold px-5 py-3 text-sm font-medium text-ink hover:bg-gold-2 disabled:opacity-40"
+            className="btn"
           >
-            Begin the questions
+            Start the questions
           </button>
         </form>
       ) : question ? (
         <div className="mt-6">
-          <p className="text-xs tracking-[0.18em] text-gold uppercase">
-            {PILLAR_COPY[question.pillar].title}
-          </p>
-          <h1 className="mt-2 font-display text-4xl leading-tight text-cream">{question.prompt}</h1>
+          <p className="mono uppercase">{PILLAR_COPY[question.pillar].title}</p>
+          <h1 className="mt-2 text-4xl leading-tight font-bold tracking-tight">{question.prompt}</h1>
           <div className="mt-6 grid gap-3" role="listbox" aria-label={question.prompt}>
             {question.options.map((option) => {
               const selected = draft.answers[question.id] === option.id;
@@ -249,22 +246,22 @@ export function QuizPage() {
                   key={option.id}
                   type="button"
                   aria-pressed={selected}
-                  className={`rounded-2xl border px-4 py-4 text-left ${
-                    selected ? "border-gold bg-gold/10" : "border-gold/20 bg-ink-2/60"
+                  className={`border px-4 py-4 text-left ${
+                    selected ? "border-ink bg-lime" : "border-ink/30 bg-transparent"
                   }`}
                   onClick={() => patch({ answers: { ...draft.answers, [question.id]: option.id } })}
                 >
-                  <span className="block text-base text-cream">{option.label}</span>
-                  <span className="mt-1 block text-sm text-mist">{option.gloss}</span>
+                  <span className="block font-bold">{option.label}</span>
+                  <span className="mt-1 block text-sm">{option.gloss}</span>
                 </button>
               );
             })}
           </div>
-          {error ? <p className="mt-4 text-sm text-ember">{error}</p> : null}
+          {error ? <p className="mt-4 text-sm">{error}</p> : null}
           <div className="mt-6 flex items-center justify-between gap-3">
             <button
               type="button"
-              className="rounded-full border border-gold/30 px-4 py-3 text-sm text-cream"
+              className="btn btn-line"
               onClick={() => patch({ step: draft.step - 1 })}
             >
               Back
@@ -272,20 +269,19 @@ export function QuizPage() {
             <button
               type="button"
               disabled={!draft.answers[question.id]}
-              className="rounded-full bg-gold px-5 py-3 text-sm font-medium text-ink disabled:opacity-40"
+              className="btn"
               onClick={() => {
                 if (draft.step === QUESTION_ORDER.length) finish();
                 else patch({ step: draft.step + 1 });
               }}
             >
-              {draft.step === QUESTION_ORDER.length ? "See the reading" : "Continue"}
+              {draft.step === QUESTION_ORDER.length ? "See your Wildsign" : "Next"}
             </button>
           </div>
         </div>
       ) : null}
-      <p className="mt-8 text-xs text-mist/70">
-        Your answers stay on this device until the reading is cast. The share link keeps the result,
-        not the birthday.
+      <p className="mono mt-8 normal-case">
+        Answers stay on this device until the Wildsign is cast. The link keeps the card, not the birthday.
       </p>
     </div>
   );

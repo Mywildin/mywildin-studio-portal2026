@@ -1,29 +1,26 @@
 import { Link } from "wouter";
-import { ArchetypeMark } from "@/components/ArchetypeMark";
+import { AnimalArt } from "@/components/AnimalArt";
 import { Seo } from "@/components/Seo";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { ARCHETYPE_LIST } from "@/content/archetypes";
-import { FAMILY_COPY } from "@/content/traits";
+import { WILD_TYPES } from "@/content/wildTypes";
 import { ARCHETYPE_TEMPLATES } from "@/lib/selfReport/archetypeTemplates";
 
-const LAYERS = [
+const STEPS = [
   {
     index: "01",
-    title: "Innate",
-    kicker: "Factory settings",
-    body: "BaZi and western astrology, read as the weather you arrived with. Day master, dominant element, Sun, Moon, and Rising when the clock is known. A study of settings, not a verdict.",
+    title: "Know yourself",
+    body: "Fifteen questions, plus the sky you showed up with. Sun, moon, day master. BaZi is factory settings. Don't be weird about it.",
   },
   {
     index: "02",
-    title: "Self-report",
-    kicker: "This version",
-    body: "Fifteen questions across four pillars: Emotional Architecture, Cognitive Blueprint, Social Fabric, Behavioral Grammar. One screen each. You leave with one of fifteen animal archetypes.",
+    title: "Your Wildsign",
+    body: "One animal. A card you can send. That's the readout. Not a verdict. Not a personality cult.",
   },
   {
     index: "03",
-    title: "Behavior",
-    kicker: "Later",
-    body: "How you actually show up, once there is something to notice. Not yet. The reading stays honest about what it has and has not seen.",
+    title: "Ask Amy",
+    body: "When you're stuck or just annoyed at your life, come back. Amy introduces you to your people. She isn't live yet.",
   },
 ];
 
@@ -31,114 +28,72 @@ export function HomePage() {
   return (
     <>
       <Seo
-        title="MyWildin — Discover your wild self"
-        description="A gamified know-yourself reading about your relationship with yourself and with your people. Friendship, not dating."
+        title="MyWildin — Get your Wildsign"
+        description="Fifteen questions, your sky, one animal. Come back and Ask Amy when you're stuck."
         path="/"
       />
-      <section className="mx-auto grid w-full max-w-6xl items-center gap-12 px-5 pt-16 pb-28 md:grid-cols-[1.15fr_0.85fr] md:pt-24 md:pb-36">
-        <div>
-          <p className="text-xs tracking-[0.28em] text-gold uppercase">A know-yourself ritual</p>
-          <h1 className="mt-4 font-display text-5xl leading-[0.95] text-cream sm:text-7xl">
-            Discover the wild self you already are.
-          </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-mist">
-            MyWildin is a quiet, gamified reading of how you move through friendship — with yourself,
-            and with the people who matter. Astrology and BaZi are treated as factory settings: the
-            sky you were born into, not a sentence.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center gap-4">
-            <Link
-              href="/quiz"
-              className="rounded-full bg-gold px-6 py-3 text-sm font-medium text-ink hover:bg-gold-2"
-            >
-              Discover your wild self
-            </Link>
-            <Link href="/about" className="text-sm text-gold underline-offset-4 hover:underline">
-              How the three layers work
-            </Link>
-          </div>
-        </div>
-        <div className="relative mx-auto w-full max-w-sm">
-          <article className="tarot tarot-rare px-6 pt-8 pb-7 text-center text-gold">
-            <p className="text-[11px] tracking-[0.22em] text-ember uppercase">Rare · Phoenix</p>
-            <ArchetypeMark id="phoenix_enigmatic_muse" className="mx-auto mt-2 h-48 w-40" />
-            <h2 className="font-display text-4xl text-cream">Phoenix</h2>
-            <p className="font-display text-xl text-gold-2 italic">Enigmatic Muse</p>
-          </article>
-          <article className="tarot absolute -bottom-8 -left-6 hidden w-40 px-3 pt-4 pb-4 text-center text-gold sm:block">
-            <ArchetypeMark id="lion_bold_leader" className="mx-auto h-28 w-24" />
-            <p className="font-display text-2xl text-cream">Lion</p>
-          </article>
+      <section className="mx-auto w-full max-w-5xl px-5 pt-14 pb-10">
+        <p className="mono uppercase">MyWildin</p>
+        <h1 className="mt-4 max-w-xl text-5xl leading-[0.95] font-bold tracking-tight sm:text-7xl">
+          Get your Wildsign.
+        </h1>
+        <p className="mt-6 max-w-md text-lg">
+          Know yourself first. Then, when you're stuck, Ask Amy. She'll introduce you to your people later. This is not a dating app.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link href="/quiz" className="btn">
+            Get your Wildsign
+          </Link>
+          <Link href="/ask-amy" className="btn btn-line">
+            Ask Amy
+          </Link>
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-5 py-8">
-        <h2 className="font-display text-4xl text-cream">Three layers. One of them waits.</h2>
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
-          {LAYERS.map((layer) => (
-            <article key={layer.index} className="tarot p-6">
-              <p className="text-xs tracking-[0.22em] text-gold uppercase">
-                {layer.index} · {layer.kicker}
-              </p>
-              <h3 className="mt-3 font-display text-3xl text-cream">{layer.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-mist">{layer.body}</p>
-            </article>
-          ))}
-        </div>
+      <section className="mx-auto grid w-full max-w-5xl gap-8 border-t border-ink px-5 py-10 md:grid-cols-3">
+        {STEPS.map((step) => (
+          <article key={step.index}>
+            <p className="mono uppercase">{step.index}</p>
+            <h2 className="mt-2 text-2xl font-bold">{step.title}</h2>
+            <p className="mt-3 text-sm leading-relaxed">{step.body}</p>
+          </article>
+        ))}
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-5 py-16">
-        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-xs tracking-[0.22em] text-gold uppercase">Fifteen animals</p>
-            <h2 className="mt-2 font-display text-4xl text-cream">A bestiary, not a dating grid.</h2>
-          </div>
-          <p className="max-w-md text-sm text-mist">
-            Four families, plus one rare bird. The Phoenix is highlighted because the pattern that
-            calls it is uncommon — every pillar lit, and the traits to match.
+      <section className="mx-auto w-full max-w-5xl border-t border-ink px-5 py-10">
+        <div className="flex items-end justify-between gap-4">
+          <h2 className="text-3xl font-bold">Fifteen animals.</h2>
+          <p className="mono hidden sm:block">
+            One rare <span className="text-pink">●</span>
           </p>
         </div>
-        <ul className="mt-6 flex flex-wrap gap-2 text-xs tracking-wide text-mist uppercase">
-          {Object.values(FAMILY_COPY).map((family) => (
-            <li key={family.title} className="rounded-full border border-gold/25 px-3 py-1">
-              {family.title}
-            </li>
-          ))}
-        </ul>
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {ARCHETYPE_LIST.map((archetype) => {
-            const rare = archetype.id === "phoenix_enigmatic_muse";
-            const family = FAMILY_COPY[ARCHETYPE_TEMPLATES[archetype.id].family].title;
+            const type = WILD_TYPES[archetype.id];
+            const slug = ARCHETYPE_TEMPLATES[archetype.id].animal;
             return (
               <article
                 key={archetype.id}
-                className={`tarot px-3 pt-4 pb-5 text-center text-gold ${rare ? "tarot-rare" : ""}`}
+                className={`border border-ink p-3 ${type.holo ? "panel-holo" : ""}`}
+                style={type.holo ? undefined : { background: type.panel }}
               >
-                {rare ? (
-                  <p className="text-[10px] tracking-[0.2em] text-ember uppercase">Rare</p>
-                ) : (
-                  <p className="text-[10px] tracking-[0.16em] text-mist uppercase">{family}</p>
-                )}
-                <ArchetypeMark id={archetype.id} className="mx-auto h-28 w-24" />
-                <h3 className="font-display text-2xl text-cream">{archetype.name}</h3>
-                <p className="text-sm text-mist italic">{archetype.epithet}</p>
+                <p className="mono uppercase">{type.holo ? "Rare" : type.type}</p>
+                <AnimalArt slug={slug} className="mx-auto mt-2 h-28 w-full object-contain" />
+                <h3 className="mt-2 text-xl font-bold">The {archetype.name}</h3>
               </article>
             );
           })}
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-5 pb-20">
-        <div className="tarot p-6 md:p-10">
-          <p className="text-xs tracking-[0.22em] text-gold uppercase">Coming soon</p>
-          <h2 className="mt-2 font-display text-4xl text-cream">Get matched with your people</h2>
-          <p className="mt-3 max-w-2xl text-mist">
-            The circle isn’t open yet. Leave an email and we’ll write when friendship matching
-            begins. No swiping. No dating. No chat on this site.
-          </p>
-          <div className="mt-6">
-            <WaitlistForm />
-          </div>
+      <section id="ask-amy" className="mx-auto w-full max-w-5xl border-t border-ink px-5 py-12">
+        <p className="mono uppercase">Coming soon</p>
+        <h2 className="mt-2 text-4xl font-bold">Ask Amy</h2>
+        <p className="mt-3 max-w-xl">
+          Stuck? Unhappy? That's the point of coming back. Amy isn't on the site yet. Leave an email. When she's ready, she introduces you to your people. Friendship first.
+        </p>
+        <div className="mt-6">
+          <WaitlistForm />
         </div>
       </section>
     </>

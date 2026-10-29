@@ -59,48 +59,40 @@ function relationshipStyle(dominantTraits: string[]): string {
   const traits = new Set(dominantTraits);
   let lead: string;
   if (traits.has("large_group_social")) {
-    lead =
-      "With other people, you widen the circle. A full room is not noise to you — it is where friendship gets its spark, as long as the spark is real.";
+    lead = "You want the room full. A tiny circle feels like a waiting room.";
   } else if (traits.has("close_knit_social")) {
-    lead =
-      "With other people, you go small and true. A few well-kept friendships will always matter more to you than a crowded contact list.";
+    lead = "You keep it small. A crowded contact list is not a personality.";
   } else if (traits.has("mission_driven_social") && traits.has("independent_social")) {
-    lead =
-      "With other people, you want both a sky of your own and companions on the same long road. You bond through shared purpose more than through proximity.";
+    lead = "You want a lane of your own and people on the same road. Proximity is not the point.";
   } else if (traits.has("mission_driven_social")) {
-    lead =
-      "With other people, shared purpose is the doorway. You relax once you can tell you are walking the same direction.";
+    lead = "You bond over the work. Small talk can wait.";
   } else if (traits.has("independent_social")) {
-    lead =
-      "With other people, you love from a little altitude. Closeness works when it still leaves you a room of your own.";
+    lead = "You like people. You also like a door you can close.";
   } else if (traits.has("observer_energy")) {
-    lead =
-      "With other people, you watch before you enter. The friends who last are the ones who don't mistake your quiet for distance.";
+    lead = "You watch first. The friends who last don't call that distance.";
   } else {
-    lead =
-      "With other people, you look for the temperature that lets everyone stay honest. Friendship, for you, is a place both of you can exhale.";
+    lead = "You look for the temperature where people can be honest without performing it.";
   }
 
   if (traits.has("deep_communication") || traits.has("spiritual_connection")) {
-    return `${lead} The conversations you remember are the ones that went below the week and touched the reason.`;
+    return `${lead} You remember the conversation that went under the week.`;
   }
   if (traits.has("playful_communication")) {
-    return `${lead} You often get there through play — a joke that turns, halfway through, into the actual truth.`;
+    return `${lead} You get there through a joke that turns into the actual point.`;
   }
   if (traits.has("direct_communication")) {
-    return `${lead} You would rather be clear than charming. The right people experience that as care.`;
+    return `${lead} You'd rather be clear than charming. The right people take that as care.`;
   }
   return lead;
 }
 
-function dynamicLayers(dominantTraits: string[], archetypeId: ArchetypeId): string {
-  const copy = ARCHETYPE_COPY[archetypeId];
+function dynamicLayers(dominantTraits: string[]): string {
   const insights = sentencesFor(dominantTraits, 2);
   const texture =
     insights.length > 0
       ? insights.join(" ")
       : "Your answers drew a pattern with more than one true center.";
-  return `${copy.name} energy, in practice, is not a costume. ${texture} The self-report is the story you tell. The sky chart beside it is only the weather you were born into.`;
+  return `This is your Wildsign, not a costume. ${texture} You wrote the answers. The sky is just the weather you showed up in.`;
 }
 
 export function generateWildSelfReport(
@@ -144,7 +136,7 @@ export function generateWildSelfReport(
     superpower: copy.superpower,
     coreIdentity: copy.description,
     pillarBreakdown,
-    dynamicLayers: dynamicLayers(profile.dominant_traits, archetypeId),
+    dynamicLayers: dynamicLayers(profile.dominant_traits),
     relationshipStyle: relationshipStyle(profile.dominant_traits),
     personalizedInsights: insights,
   };

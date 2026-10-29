@@ -43,8 +43,8 @@ export function CitySearch({
 
   return (
     <div ref={boxRef} className="relative">
-      <label className="grid gap-1 text-sm text-mist" htmlFor={`${listId}-input`}>
-        Birth place
+      <label className="mono grid gap-1 normal-case" htmlFor={`${listId}-input`}>
+        City
         <input
           id={`${listId}-input`}
           className="field"
@@ -83,16 +83,16 @@ export function CitySearch({
         <ul
           id={listId}
           role="listbox"
-          className="absolute z-20 mt-2 max-h-64 w-full overflow-auto rounded-xl border border-gold/25 bg-ink-2 py-1 shadow-2xl"
+          className="absolute z-20 mt-2 max-h-64 w-full overflow-auto border border-ink bg-paper py-1"
         >
           {results.length === 0 ? (
-            <li className="px-3 py-2 text-sm text-mist">No city in the offline list. Try a larger nearby city.</li>
+            <li className="px-3 py-2 text-sm">Not in the list. Try a bigger nearby city.</li>
           ) : (
             results.map((city, index) => (
               <li key={city.id} role="option" aria-selected={index === active}>
                 <button
                   type="button"
-                  className={`block w-full px-3 py-2 text-left text-sm ${index === active ? "bg-gold/15 text-cream" : "text-mist"}`}
+                  className={`block w-full px-3 py-2 text-left text-sm ${index === active ? "bg-lime" : ""}`}
                   onMouseEnter={() => setActive(index)}
                   onClick={() => choose(city)}
                 >
@@ -103,9 +103,7 @@ export function CitySearch({
           )}
         </ul>
       ) : null}
-      <p className="mt-2 text-xs text-mist/80">
-        Offline city list with latitude, longitude, and timezone. No lookup service.
-      </p>
+      <p className="mono mt-2 normal-case">Offline list. Latitude, longitude, timezone. No lookup service.</p>
     </div>
   );
 }

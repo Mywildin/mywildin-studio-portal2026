@@ -345,6 +345,27 @@ describe("dynamic report", () => {
   });
 });
 
+describe("public copy", () => {
+  it("does not use fate, fortune, or psychic language", async () => {
+    const [{ ARCHETYPE_COPY }, { QUESTION_CONTENT }, { TRAIT_PHRASES, FAMILY_COPY, PILLAR_COPY }, { posts }] =
+      await Promise.all([
+        import("@/content/archetypes"),
+        import("@/content/questions"),
+        import("@/content/traits"),
+        import("@/content/blog"),
+      ]);
+    const blob = JSON.stringify({
+      ARCHETYPE_COPY,
+      QUESTION_CONTENT,
+      TRAIT_PHRASES,
+      FAMILY_COPY,
+      PILLAR_COPY,
+      posts: posts.map((post) => `${post.title}\n${post.description}\n${post.body}`),
+    }).toLowerCase();
+    expect(blob).not.toMatch(/\bfate\b|\bfortune\b|psychic|fate os/);
+  });
+});
+
 describe("editable copy stays aligned with scoring ids", () => {
   it("gives every option a label and every archetype a card", () => {
     expect(QUESTION_IDS.every((id) => QUESTION_CONTENT[id])).toBe(true);

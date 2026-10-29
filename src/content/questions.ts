@@ -17,7 +17,7 @@ export const QUESTION_CONTENT: Record<QuestionId, QuestionContent> = {
   Q1: {
     id: "Q1",
     pillar: "emotional_architecture",
-    prompt: "When you feel something, how far down does it go?",
+    prompt: "How deep do you actually feel things?",
     options: [
       { id: "chill", label: "Chill", gloss: "It visits. It doesn't move in." },
       { id: "balanced", label: "Balanced", gloss: "Real, but I can set it down." },
@@ -28,7 +28,7 @@ export const QUESTION_CONTENT: Record<QuestionId, QuestionContent> = {
   Q2: {
     id: "Q2",
     pillar: "social_fabric",
-    prompt: "How do you show up when you care about someone?",
+    prompt: "How do you act when you care?",
     options: [
       { id: "low_key", label: "Low-key", gloss: "A quiet presence is the whole point." },
       { id: "warm", label: "Warm", gloss: "Steady heat. Nothing performed." },

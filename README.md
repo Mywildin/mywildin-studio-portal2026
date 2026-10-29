@@ -2,7 +2,11 @@
 
 A know-yourself site for [mywildin.com](https://mywildin.com). You take a short quiz, get one of fifteen animal archetypes, and can save a portrait card. The frame is **friendship** — with yourself, and with your people. It is not a dating product, and there is no chat.
 
-Astrology and BaZi are treated as **factory settings**: the weather you were born into, not a verdict.
+Astrology and BaZi are treated as factory settings: the weather you showed up in, not a verdict.
+
+The public look is off-white, black, DM Sans, and IBM Plex Mono. Each animal has a soft type-color panel. Character art is a flat SVG at `public/animals/{slug}.svg` (`fox`, `owl`, `phoenix`, and the rest). Replace that file to drop in a finished illustration. The component is `src/components/AnimalArt.tsx`.
+
+The result is called a **Wildsign**. **Ask Amy** is the revisit CTA and currently opens the waitlist. Do not use Fate OS, fate, fortune, or psychic in user-facing copy.
 
 ## Stack
 

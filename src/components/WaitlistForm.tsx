@@ -48,32 +48,32 @@ export function WaitlistForm({ id = "waitlist" }: { id?: string }) {
           <input name="bot-field" tabIndex={-1} autoComplete="off" />
         </label>
       </p>
-      <label className="grid gap-1 text-sm text-mist">
+      <label className="mono grid gap-1 normal-case">
         Name
         <input className="field" name="name" type="text" autoComplete="name" maxLength={80} placeholder="What should we call you?" />
       </label>
-      <label className="grid gap-1 text-sm text-mist">
+      <label className="mono grid gap-1 normal-case">
         Email
         <input className="field" name="email" type="email" required autoComplete="email" placeholder="you@example.com" />
       </label>
       <button
         type="submit"
         disabled={status === "sending"}
-        className="self-end rounded-full bg-gold px-5 py-3 text-sm font-medium text-ink hover:bg-gold-2 disabled:opacity-60"
+        className="btn self-end"
       >
-        {status === "sending" ? "Sending…" : "Join the list"}
+        {status === "sending" ? "Sending…" : "Tell Amy"}
       </button>
       <div className="sm:col-span-3">
         {status === "done" ? (
-          <p className="text-sm text-gold-2">You’re on the list. We’ll write when the circle opens.</p>
+          <p className="text-sm">You're on the list. We'll write when Amy is actually here.</p>
         ) : null}
         {status === "error" ? (
-          <p className="text-sm text-mist">
-            The list is collected by Netlify Forms on the published site. Nothing about your birth was included.
+          <p className="text-sm">
+            The list posts on the live site. Your birth details were not included.
           </p>
         ) : null}
-        <p className="mt-2 text-xs text-mist/80">
-          Email only. No birth date, no chart, no quiz. Friendship matching is coming — this is not a dating list.
+        <p className="mono mt-2 normal-case">
+          Email only. No birthday, no Wildsign. Amy introduces you to your people later.
         </p>
       </div>
     </form>

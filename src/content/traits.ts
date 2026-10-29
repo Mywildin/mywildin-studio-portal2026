@@ -7,22 +7,22 @@ export const PILLAR_COPY: Record<
   emotional_architecture: {
     title: "Emotional Architecture",
     short: "Heart",
-    blurb: "How deep feeling goes, and the voice you trust when you tell the truth.",
+    blurb: "How loud your feelings are, and whether you say them.",
   },
   cognitive_blueprint: {
     title: "Cognitive Blueprint",
     short: "Mind",
-    blurb: "The way you think, learn, and make something that wasn't there before.",
+    blurb: "How you think when nobody is grading you.",
   },
   social_fabric: {
     title: "Social Fabric",
     short: "Circle",
-    blurb: "The temperature of a room when you walk in, and the size of circle that feeds you.",
+    blurb: "The size of room that doesn't drain you.",
   },
   behavioral_grammar: {
     title: "Behavioral Grammar",
     short: "Motion",
-    blurb: "What you protect, how you meet change, and what you do when the path forks.",
+    blurb: "What you do when the plan breaks.",
   },
 };
 
@@ -80,23 +80,23 @@ export const FAMILY_COPY: Record<
   { title: string; blurb: string }
 > = {
   spark_blazers: {
-    title: "Spark Blazers",
-    blurb: "You start the fire, then make sure the people beside you can feel it.",
+    title: "Spark",
+    blurb: "You start it, then look around to see who caught it.",
   },
   depth_weavers: {
-    title: "Depth Weavers",
-    blurb: "You work in the deep end of feeling, meaning, and slow becoming.",
+    title: "Depth",
+    blurb: "You go under the week. Not everyone asked for that.",
   },
   loyal_binders: {
-    title: "Loyal Binders",
-    blurb: "You hold a circle steady. People exhale when you are in the room.",
+    title: "Loyal",
+    blurb: "Small circle. You keep it.",
   },
   path_shapers: {
-    title: "Path Shapers",
-    blurb: "You cut a way through. Curiosity, focus, and nerve, in different proportions.",
+    title: "Path",
+    blurb: "You find a way through. Sometimes you forget to wait.",
   },
   transcendent: {
-    title: "Transcendent",
-    blurb: "Rare. Every layer awake at once, and none of them willing to stay small.",
+    title: "Rare",
+    blurb: "Every layer lit at once. Use it carefully.",
   },
 };

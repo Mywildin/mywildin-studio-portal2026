@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { Route, Switch } from "wouter";
 import { Layout } from "@/components/Layout";
 import { AboutPage } from "@/pages/About";
+import { AskAmyPage } from "@/pages/AskAmy";
 import { BlogPage } from "@/pages/Blog";
 import { BlogPostPage } from "@/pages/BlogPost";
 import { HomePage } from "@/pages/Home";
@@ -17,12 +18,13 @@ export function App() {
       <Switch>
         <Route path="/" component={HomePage} />
         <Route path="/quiz">
-          <Suspense fallback={<p className="px-5 py-16 text-center text-mist">Opening the quiz…</p>}>
+          <Suspense fallback={<p className="px-5 py-16 text-center">Opening the quiz…</p>}>
             <QuizPage />
           </Suspense>
         </Route>
         <Route path="/result" component={ResultPage} />
         <Route path="/about" component={AboutPage} />
+        <Route path="/ask-amy" component={AskAmyPage} />
         <Route path="/blog" component={BlogPage} />
         <Route path="/blog/:slug" component={BlogPostPage} />
         <Route path="/privacy" component={PrivacyPage} />

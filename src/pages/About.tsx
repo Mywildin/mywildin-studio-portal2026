@@ -3,45 +3,33 @@ import { Seo } from "@/components/Seo";
 
 export function AboutPage() {
   return (
-    <article className="mx-auto w-full max-w-2xl px-5 py-14">
+    <article className="mx-auto w-full max-w-xl px-5 py-14">
       <Seo
         title="About"
-        description="MyWildin is a friendship-first know-yourself reading. Factory settings, a self-report, and a bestiary of fifteen animals."
+        description="MyWildin is a know-yourself quiz. Your Wildsign, then Ask Amy when you're stuck."
         path="/about"
       />
-      <p className="text-xs tracking-[0.22em] text-gold uppercase">About</p>
-      <h1 className="mt-3 font-display text-5xl text-cream">Know yourself, then know your people.</h1>
-      <div className="mt-6 grid gap-4 text-base leading-relaxed text-mist">
+      <p className="mono uppercase">About</p>
+      <h1 className="mt-3 text-5xl font-bold tracking-tight">Know yourself. Then your people.</h1>
+      <div className="mt-6 grid gap-4 leading-relaxed">
         <p>
-          MyWildin is a gamified “know yourself” experience for the AI era. It is about your
-          relationship with yourself and with other people. The frame is friendship. It is not a
-          dating product, and there is no chat on this site.
+          MyWildin is a short quiz about how you relate to yourself and to other people. Friendship first. Dating is one kind of connection that can come later. This is not a dating app, and there is no chat here.
         </p>
         <p>
-          We talk about astrology and BaZi as factory settings — the weather you were shipped with.
-          Western Sun, Moon, and Rising describe one dialect of that weather. The Chinese four
-          pillars describe another: a day master, and the element that shows up most. Neither one is
-          asked to be fate.
+          The sky part is self-aware on purpose. Western sun, moon, and rising are the weather you showed up in. BaZi — day master, dominant element — is the factory settings. Neither one gets to be a verdict.
         </p>
         <p>
-          The self-report is fifteen questions. Five of them measure intensity. Ten of them place you
-          on a style. Together they light four pillars: Emotional Architecture, Cognitive Blueprint,
-          Social Fabric, and Behavioral Grammar. The pattern lands on one of fifteen animals. The
-          Phoenix is rare on purpose.
+          Fifteen questions light four layers: how you feel, how you think, how you keep people, how you move when things change. You get one animal. That's your Wildsign. The Phoenix is the rare one, and it has to earn it.
         </p>
         <p>
-          A later layer will look at behavior — what you actually do, not only what you say and what
-          the sky suggests. This version stops before that. The reading says so.
+          When you're stuck or unhappy, Ask Amy. She isn't live yet. Later she introduces you to your people. Behavior — what you actually do on a Tuesday — comes after that. This version doesn't pretend it watched you.
         </p>
         <p>
-          Birth date, time, and place are used in your browser to cast the chart, then dropped.
-          The shareable link carries the result: the animal, the pillars, the signs, the day master.
-          It does not carry the birthday. The waitlist sends only the name and email you type into
-          it, through Netlify Forms.
+          Birth date, time, and city stay in the browser. The share link carries the Wildsign, not the birthday.
         </p>
       </div>
-      <Link href="/quiz" className="mt-8 inline-flex rounded-full bg-gold px-5 py-3 text-sm font-medium text-ink">
-        Discover your wild self
+      <Link href="/quiz" className="btn mt-8">
+        Get your Wildsign
       </Link>
     </article>
   );

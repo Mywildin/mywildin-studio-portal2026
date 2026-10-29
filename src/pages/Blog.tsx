@@ -10,21 +10,19 @@ export function BlogPage() {
         description="Notes from MyWildin. The early posts are still drafts."
         path="/blog"
       />
-      <p className="text-xs tracking-[0.22em] text-gold uppercase">Blog</p>
-      <h1 className="mt-3 font-display text-5xl text-cream">Notes from the circle</h1>
-      <p className="mt-3 text-mist">
-        Two early notes are here, still marked as drafts.
-      </p>
+      <p className="mono uppercase">Blog</p>
+      <h1 className="mt-3 text-5xl font-bold tracking-tight">Notes</h1>
+      <p className="mt-3">Two early notes. Still drafts.</p>
       <ul className="mt-8 grid gap-4">
         {posts.map((post) => (
           <li key={post.slug}>
-            <Link href={`/blog/${post.slug}`} className="tarot block p-5 hover:border-gold">
-              <div className="flex items-center gap-3 text-xs tracking-[0.16em] text-gold uppercase">
-                {post.draft ? <span className="text-ember">Draft</span> : null}
+            <Link href={`/blog/${post.slug}`} className="block border border-ink p-5">
+              <div className="mono flex items-center gap-3">
+                {post.draft ? <span>Draft</span> : null}
                 <time dateTime={post.date}>{post.date}</time>
               </div>
-              <h2 className="mt-2 font-display text-3xl text-cream">{post.title}</h2>
-              <p className="mt-2 text-sm text-mist">{post.description}</p>
+              <h2 className="mt-2 text-3xl font-bold">{post.title}</h2>
+              <p className="mt-2 text-sm">{post.description}</p>
             </Link>
           </li>
         ))}
