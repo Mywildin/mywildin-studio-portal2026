@@ -1,0 +1,12 @@
+[build]
+  command = "pnpm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# SPA fallback. Netlify Forms handles POST / before this rewrite.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

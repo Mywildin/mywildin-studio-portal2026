@@ -1,0 +1,123 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: "DM Sans", "Avenir Next", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --color-paper: #f6f4ef;
+  --color-ink: #161616;
+  --color-lime: #d6ff3c;
+  --color-pink: #ff4fa3;
+  --color-line: #161616;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--color-lime);
+  color: var(--color-ink);
+}
+
+.field {
+  width: 100%;
+  border: 1.5px solid var(--color-ink);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  border-radius: 0;
+  padding: 0.8rem 0.9rem;
+  font: inherit;
+  color-scheme: light;
+}
+
+.field::placeholder {
+  color: rgba(22, 22, 22, 0.45);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-paper);
+  padding: 0.75rem 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.btn:disabled {
+  opacity: 0.35;
+}
+
+.btn-line {
+  background: transparent;
+  color: var(--color-ink);
+}
+
+.btn-line:hover,
+.btn:hover {
+  background: var(--color-lime);
+  color: var(--color-ink);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.rule {
+  border: 0;
+  border-top: 1px solid var(--color-ink);
+}
+
+.panel-holo {
+  background: linear-gradient(135deg, #ffe1f4 0%, #e8ff9a 32%, #d7f3ff 64%, #ffd0ea 100%);
+  background-size: 180% 180%;
+  animation: holo 9s ease infinite;
+}
+
+@keyframes holo {
+  0% {
+    background-position: 0% 40%;
+  }
+  50% {
+    background-position: 100% 60%;
+  }
+  100% {
+    background-position: 0% 40%;
+  }
+}
+
+.prose-wild {
+  --tw-prose-body: #161616;
+  --tw-prose-headings: #161616;
+  --tw-prose-links: #161616;
+  --tw-prose-bold: #161616;
+  --tw-prose-quotes: #161616;
+  --tw-prose-quote-borders: #161616;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .panel-holo {
+    animation: none;
+  }
+}
