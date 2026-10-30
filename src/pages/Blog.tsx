@@ -7,12 +7,12 @@ export function BlogPage() {
     <div className="mx-auto w-full max-w-2xl px-5 py-14">
       <Seo
         title="Blog"
-        description="Notes from MyWildin. The early posts are still drafts."
+        description="Notes from MyWildin on how the quiz works and what it is for."
         path="/blog"
       />
       <p className="mono uppercase">Blog</p>
       <h1 className="mt-3 text-5xl font-bold tracking-tight">Notes</h1>
-      <p className="mt-3">Two early notes. Still drafts.</p>
+      <p className="mt-3">Short notes on how MyWildin works and why it exists.</p>
       <ul className="mt-8 grid gap-4">
         {posts.map((post) => (
           <li key={post.slug}>
