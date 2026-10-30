@@ -38,6 +38,10 @@ function hasPhoenixTraits(profile: UserProfile): boolean {
 /**
  * Section 6 decision tree. Order and fall-through match the founder sketch.
  * Section 5's compatibility score is intentionally not used.
+ *
+ * Owl is the remainder of the high-emotional, spiritual branch, and only when
+ * extroverted energy is absent. An extroverted profile does not match Owl and
+ * continues into the later checks.
  */
 export function determineAnimal(profile: UserProfile): ArchetypeId {
   const scores = profile.pillar_intensities;
@@ -50,7 +54,7 @@ export function determineAnimal(profile: UserProfile): ArchetypeId {
   if (scores.emotional_architecture >= 0.8 && has("spiritual_connection")) {
     if (has("observer_energy")) return "whale_deep_empath";
     if (has("growth_focused")) return "butterfly_gentle_transformer";
-    return "owl_intuitive_sage";
+    if (!has("extroverted_energy")) return "owl_intuitive_sage";
   }
 
   if (scores.cognitive_blueprint >= 0.7) {

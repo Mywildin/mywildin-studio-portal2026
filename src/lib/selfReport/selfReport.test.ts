@@ -11,25 +11,52 @@ import {
   mergeTraitVectors,
   traitsToPillarScore,
 } from "./scoring";
-import { ARCHETYPE_IDS, PILLARS, QUESTION_IDS, type AnswerMap, type ArchetypeId } from "./types";
+import {
+  ARCHETYPE_IDS,
+  PILLARS,
+  QUESTION_IDS,
+  type AnswerMap,
+  type ArchetypeId,
+  type QuestionId,
+} from "./types";
 
-const sample: AnswerMap = {
-  Q1: "all_in",
-  Q2: "charmer",
-  Q3: "own_it",
-  Q4: "think_big",
-  Q5: "justice",
-  Q6: "go_deeper",
-  Q7: "do_it",
-  Q8: "full_hype",
-  Q9: "go_deep",
-  Q10: "no_limits",
-  Q11: "face_it",
-  Q12: "same_mission",
-  Q13: "lets_go",
-  Q14: "full_reset",
-  Q15: "push_boundaries",
-};
+/** Design C section 7 sample, in question order. */
+const SECTION_7_LABELS = [
+  "All in",
+  "Charmer",
+  "Own it",
+  "Think big",
+  "Justice",
+  "Go deeper",
+  "Do it",
+  "Full hype",
+  "Go deep",
+  "No limits",
+  "Face it head-on",
+  "Same mission",
+  "Let's go!",
+  "Full reset",
+  "Push boundaries",
+] as const;
+
+function answersFromLabels(labels: readonly string[]): AnswerMap {
+  const map = {} as AnswerMap;
+  QUESTION_IDS.forEach((id, index) => {
+    const label = labels[index];
+    const option = QUESTION_CONTENT[id].options.find((item) => item.label === label);
+    if (!option) throw new Error(`No option labeled "${label}" on ${id}`);
+    map[id] = option.id;
+  });
+  return map;
+}
+
+function withLabel(base: AnswerMap, questionId: QuestionId, label: string): AnswerMap {
+  const option = QUESTION_CONTENT[questionId].options.find((item) => item.label === label);
+  if (!option) throw new Error(`No option labeled "${label}" on ${questionId}`);
+  return { ...base, [questionId]: option.id };
+}
+
+const sample = answersFromLabels(SECTION_7_LABELS);
 
 function answers(overrides: Partial<AnswerMap>): AnswerMap {
   return { ...sample, ...overrides };
@@ -128,16 +155,30 @@ describe("archetype templates", () => {
 });
 
 describe("assignment", () => {
-  it("turns the section 7 sample into an Owl, not the deferred Lion match", () => {
+  it("turns the section 7 sample into Lion because extroverted energy skips Owl", () => {
     const result = assessSelfReport(sample);
     expect(result.assignment_type).toBe("decision_tree");
     expect(result.profile.pillar_intensities.emotional_architecture).toBeCloseTo(0.9);
     expect(result.profile.pillar_intensities.social_fabric).toBeCloseTo(1);
     expect(result.profile.pillar_intensities.behavioral_grammar).toBeCloseTo(1);
     expect(result.profile.pillar_intensities.cognitive_blueprint).toBeCloseTo(1);
-    expect(result.primary_archetype).toBe("owl_intuitive_sage");
     expect(result.profile.dominant_traits).toContain("spiritual_connection");
+    expect(result.profile.dominant_traits).toContain("extroverted_energy");
     expect(result.profile.dominant_traits).not.toContain("observer_energy");
+    expect(result.primary_archetype).toBe("lion_bold_leader");
+    expect(ARCHETYPE_COPY[result.archetypeId].name).toBe("Lion");
+  });
+
+  it("keeps Owl for an introverted, spiritual, high-emotional profile", () => {
+    const result = assessSelfReport(withLabel(sample, "Q8", "Solo mode"));
+    expect(result.profile.pillar_intensities.emotional_architecture).toBeGreaterThanOrEqual(0.8);
+    expect(result.profile.dominant_traits).toContain("spiritual_connection");
+    expect(result.profile.dominant_traits).toContain("introverted_energy");
+    expect(result.profile.dominant_traits).not.toContain("extroverted_energy");
+    expect(result.profile.dominant_traits).not.toContain("observer_energy");
+    expect(result.profile.dominant_traits).not.toContain("growth_focused");
+    expect(result.primary_archetype).toBe("owl_intuitive_sage");
+    expect(ARCHETYPE_COPY[result.archetypeId].name).toBe("Owl");
   });
 
   const fixtures: Record<ArchetypeId, Partial<AnswerMap>> = {
@@ -182,7 +223,9 @@ describe("assignment", () => {
       Q10: "stay_flexible",
       Q11: "smooth_over",
     },
-    owl_intuitive_sage: {},
+    owl_intuitive_sage: {
+      Q8: "solo_mode",
+    },
     eagle_visionary_scout: {
       Q1: "chill",
       Q3: "vague",
@@ -310,7 +353,6 @@ describe("assignment", () => {
 
 describe("dynamic report", () => {
   it("highlights Phoenix and fills the four pillars", () => {
-    const assessment = assessSelfReport(answers(sample));
     const phoenix = assessSelfReport(
       answers({
         Q1: "all_in",
@@ -339,7 +381,8 @@ describe("dynamic report", () => {
     expect(report.relationshipStyle.toLowerCase()).not.toMatch(/dating|romance|boyfriend|girlfriend/);
     expect(report.strengths.length).toBeGreaterThan(0);
 
-    const owl = generateWildSelfReport(assessment.archetypeId, assessment.profile);
+    const owlProfile = assessSelfReport(withLabel(sample, "Q8", "Solo mode"));
+    const owl = generateWildSelfReport(owlProfile.archetypeId, owlProfile.profile);
     expect(owl.name).toBe("Owl");
     expect(owl.rare).toBe(false);
   });

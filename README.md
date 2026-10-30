@@ -103,7 +103,7 @@ The founder’s note is the source of truth. A few functions were sketched but n
 4. **`get_top_traits`** keeps the top 3 activations above 0. Ties break by trait name, A to Z.
 5. The global dominant-trait list is the union of each pillar’s top 3, in pillar order.
 6. **Assignment uses the section 6 decision tree**, not the section 5 compatibility score. Section 5 is intentionally not implemented. Profiles and templates are shaped so it can be added later (`pillar_intensities`, `trait_profiles`, `intensity_requirements`, `trait_patterns`).
-7. Because of that, the worked example in section 7 (which belongs to the compatibility matcher) lands on **Owl**, not Lion at 92%. The test locks this.
+7. **Owl** is what remains of the high-emotional, spiritual branch (`emotional_architecture` ≥ 0.8 and `spiritual_connection`) after Whale (observer energy) and Butterfly (growth). Owl also requires that `extroverted_energy` is absent. If that trait is present, Owl does not match and evaluation continues. The section 7 sample has extroverted energy, so the tree assigns **Lion**. That Lion is the decision-tree result, not the section 5 compatibility score of 92%, which is still not implemented.
 8. **Phoenix** requires every pillar intensity ≥ 0.8 and every required Phoenix trait at a weighted activation ≥ 0.55.
 9. The Deer template says `absorptive_learning`. The question bank calls that trait `passive_learning`. Assignment treats them as the same trait. The template string is unchanged.
 10. Panda’s template lists `balanced_approach` on the cognitive pillar. That trait actually comes from Q13 (behavior). Stored as written for the future matcher. The decision tree does not read it; Panda is the default when nothing else matches.
